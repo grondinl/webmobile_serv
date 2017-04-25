@@ -1,8 +1,33 @@
 {
-    "name": "WEM_serveur",
-    "version": "1.0.0",
-    "keywords": ["util", "functional", "server", "client", "browser"],
-    "author": "grondinl",
-    "contributors": [],
-    "dependencies": {}
+  "name": "wem_server",
+  "version": "1.0.0",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "author": "grondinl",
+  "contributors": [],
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "express-mustache": "^1.0.3",
+    "socket.io": "^1.7.3"
+  },
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grondinl/webmobile_serv.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grondinl/webmobile_serv/issues"
+  },
+  "homepage": "https://github.com/grondinl/webmobile_serv#readme",
+  "description": ""
 }
