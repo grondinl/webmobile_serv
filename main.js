@@ -59,14 +59,33 @@ io.sockets.on('connection', function (socket) {
         socket_client.pseudo = pseudo;//variable de session
         socket_client.broadcast.emit('nouveau_client', pseudo);
     });
-
-
     // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
     socket_client.on('message', function (message) {
         message = ent.encode(message);
         socket_client.broadcast.emit('message', {pseudo: socket_client.pseudo, message: message});
     });*/
     socket.emit('text', "Coucou");
+    
+    socket.on('identification', function(tel){
+        utilisateurExistant(tel, function(data,error){
+            if(error == null) {
+                if (data != null) {
+                    socket.emit('text',"utilisateur existants");                    
+                }
+                else {
+                    addUser(tel,function(error){
+                        if(error == null) {
+                            socket.emit('text',"utilisateur ajouté");
+                        }
+                    });
+                }
+            }
+            else {
+                socket.emit('text', "erreur")
+            }
+        });
+    });
+    
     socket.on('disconnect', function(){
         console.log("Deconnection");
     });
