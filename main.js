@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({
 })); 
 
 //chargement de socket.io
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, { pingTimeout: 60000});
 /*
 //quand un client se connecte, on le note dans la console
 io.sockets.on('connection', function (socket) {
