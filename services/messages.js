@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var db = require('../db/donnesUtilisateurs.js');
+var db = require('../db/donneesUtilisateurs.js');
 
 
 function calculZoneGeographique(socket)
