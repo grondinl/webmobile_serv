@@ -24,12 +24,12 @@ var express = require('express');
 var path = require('path');
 var app = express(); // creation du serveur
 var server = require('http').createServer(app);
-var bodyParser = require('body-parser')  // envoie des paramètres en POST
+var bodyParser = require('body-parser');  // envoie des paramètres en POST
 //var mustacheExpress = require('mustache-express');
-var ent = require('ent'), // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
+var ent = require('ent'); // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
 
 //var app_router = require('./routes/app_routes'); //eventuellement ( A VOIR PLUS TARD)
-var messages_services = require('./services/messages')
+var messages_services = require('./services/messages');
 
 // pour gérer les URL-encoded bodies (envoie formulaire en POST)
 app.use(bodyParser.urlencoded({     
