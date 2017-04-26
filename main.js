@@ -66,7 +66,7 @@ io.sockets.on('connection', function (socket) {
         message = ent.encode(message);
         socket_client.broadcast.emit('message', {pseudo: socket_client.pseudo, message: message});
     });*/
-    socket.send("Coucou");
+    socket.emit('text', "Coucou");
     socket.on('disconnect', function(){
         console.log("Deconnection");
     });
