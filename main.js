@@ -27,7 +27,7 @@ var server = require('http').createServer(app);
 var bodyParser = require('body-parser');  // envoie des paramètres en POST
 //var mustacheExpress = require('mustache-express');
 var ent = require('ent'); // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
-
+var dU = require('./db/donneesUtilisateurs.js');
 //var app_router = require('./routes/app_routes'); //eventuellement ( A VOIR PLUS TARD)
 var messages_services = require('./services/messages');
 
@@ -67,13 +67,16 @@ io.sockets.on('connection', function (socket) {
     socket.emit('text', "Coucou");
     
     socket.on('identification', function(tel){
-        utilisateurExistant(tel, function(data,error){
-            if(error == null) {
-                if (data != null) {
-                    socket.emit('text',"utilisateur existants");                    
+        console.log("identification avec tel : " + tel);
+        dU.utilisateurExistant(tel, function(data,error) {
+            if (error == null) {
+                if (data == 1) {
+                    console.log("utilisateur existant");
+                    socket.emit('text',"utilisateur existant : " + data);
                 }
                 else {
-                    addUser(tel,function(error){
+                    console.log("ajout utilisateur");
+                    dU.addUser(tel,function(error){
                         if(error == null) {
                             socket.emit('text',"utilisateur ajouté");
                         }

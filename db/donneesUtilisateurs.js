@@ -12,20 +12,21 @@ var db = pgp(dbconfig);
 var exports= module.exports ={};
 
 exports.utilisateurExistant = function (tel, callback){
-    db.any("SELECT numeroTel FROM utilisateur WHERE numeroTel='"+ tel +"';")
+    db.any("SELECT COUNT(*) FROM public.utilisateur u WHERE u.numerotel='"+ tel +"';")
         .then(function (data) {
-            callback(null ,data);
+            console.log("trouve "+ data. +" utilisateurs");
+            callback(data, null);
         })
 
         .catch(function (error) {
 
-            callback(error ,null);
+            callback(null ,error);
 
         });      
     
 };
 exports.addUser = function (tel, callback){
-    db.any("INSERT INTO utilisateur(numerotel) VALUES '"+ tel +"';")
+    db.any("INSERT INTO public.utilisateur(numerotel) VALUES ('"+ tel +"');")
         .then(function(){
             callback(null);
         })
