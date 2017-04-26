@@ -51,7 +51,7 @@ io.sockets.on('connection', function (socket) {
 });
 */
 io.sockets.on('connection', function (socket_client, pseudo) {
-    
+    console.log("Connection");
     // a gerer avec les bdd
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
     socket_client.on('nouveau_client', function(pseudo) {
@@ -66,7 +66,7 @@ io.sockets.on('connection', function (socket_client, pseudo) {
         message = ent.encode(message);
         socket_client.broadcast.emit('message', {pseudo: socket_client.pseudo, message: message});
     }); 
-
+    console.log("Deconnection");
 });
 
 server.listen(8080);
