@@ -50,11 +50,11 @@ io.sockets.on('connection', function (socket) {
     socket.emit('message', 'Vous êtes bien connecté !');
 });
 */
-io.sockets.on('connection', function (socket_client, pseudo) {
+io.sockets.on('connection', function (socket) {
     console.log("Connection");
     // a gerer avec les bdd
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
-    socket_client.on('nouveau_client', function(pseudo) {
+    /*socket_client.on('nouveau_client', function(pseudo) {
         pseudo = ent.encode(pseudo);
         socket_client.pseudo = pseudo;//variable de session
         socket_client.broadcast.emit('nouveau_client', pseudo);
@@ -65,8 +65,12 @@ io.sockets.on('connection', function (socket_client, pseudo) {
     socket_client.on('message', function (message) {
         message = ent.encode(message);
         socket_client.broadcast.emit('message', {pseudo: socket_client.pseudo, message: message});
-    }); 
-    console.log("Deconnection");
+    });*/
+    socket.send("Coucou");
+    socket.on('disconnect', function(){
+        console.log("Deconnection");
+    });
 });
 
-server.listen(8080);
+server.listen(3000);
+console.log("listening on 3000");
