@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 
-var pgp = require('pg-promise')(/*options*/)
-var dbconfig = require('./settings.js').settings
+var pgp = require('pg-promise')(/*options*/);
+var dbconfig = require('./settings.js').settings;
 
 
-var db = pgp(dbconfig)
+var db = pgp(dbconfig);
+var exports= module.exports ={};
 
-function utilisateurExistant(tel, callback){
+exports.utilisateurExistant = function (tel, callback){
     db.any("SELECT numeroTel FROM utilisateur WHERE numeroTel='"+ tel +"';")
         .then(function (data) {
             callback(null ,data);
@@ -18,12 +19,12 @@ function utilisateurExistant(tel, callback){
 
         .catch(function (error) {
 
-            callback(error ,null)
+            callback(error ,null);
 
         });      
     
-}
-function addUser(tel, callback){
+};
+exports.addUser = function (tel, callback){
     db.any("INSERT INTO utilisateur(numerotel) VALUES '"+ tel +"';")
         .then(function(){
             callback(null);
@@ -33,7 +34,7 @@ function addUser(tel, callback){
         });
 };
 
-function  getContactUtilisateur(id, callback) {
+exports.getContactUtilisateur = function (id, callback) {
 
     db.any('SELECT distinct u.idPerson u.numeroTel FROM public.contact c, public.utilisateur u WHERE c.idPerson1 = '+id.toString()+';', null)
 
@@ -43,12 +44,12 @@ function  getContactUtilisateur(id, callback) {
 
         .catch(function (error) {
 
-            callback(error ,null)
+            callback(error ,null);
 
         });        
-}
+};
 
-function getPosition(idPerson, callback){
+exports.getPosition = function (idPerson, callback){
     
     db.any('SELECT position FROM utilisateur;')
         .then(function (data) {
@@ -57,17 +58,8 @@ function getPosition(idPerson, callback){
 
         .catch(function (error) {
 
-            callback(error ,null)
+            callback(error ,null);
 
         }); 
     
-}
-
-module.exports = {addUser };
-
-
-
-
-
-
-
+};

@@ -4,14 +4,11 @@
  * and open the template in the editor.
  */
 
-var settings = {
+var exports = module.exports = {};
+exports.settings = {
     host: 'ensibd',
     port: 5432,
     database: 'grondinl',
     user: 'grondinl',
     password: 'grondinl'
 };
-
-module.exports ={settings}
-
-
