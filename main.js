@@ -78,16 +78,21 @@ io.sockets.on('connection', function (socket) {
                     console.log("ajout utilisateur");
                     dU.addUser(tel,function(error){
                         if(error == null) {
+                            console.log("utilisateur ajouté");
                             socket.emit('text',"utilisateur ajouté");
+                        } else {
+                            console.log("erreur 1");
+                            socket.emit('text', "erreur");
                         }
                     });
                 }
             }
             else {
-                socket.emit('text', "erreur")
+                socket.emit('text', "erreur 2");
             }
         });
     });
+    
     
     socket.on('disconnect', function(){
         console.log("Deconnection");

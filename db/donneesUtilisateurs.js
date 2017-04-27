@@ -14,7 +14,7 @@ var exports= module.exports ={};
 exports.utilisateurExistant = function (tel, callback){
     db.any("SELECT COUNT(*) FROM public.utilisateur u WHERE u.numerotel='"+ tel +"';")
         .then(function (data) {
-            console.log("trouve "+ data. +" utilisateurs");
+            console.log("trouve "+ data +" utilisateurs");
             callback(data, null);
         })
 
@@ -36,6 +36,21 @@ exports.addUser = function (tel, callback){
 };
 
 exports.getContactUtilisateur = function (id, callback) {
+
+    db.any('SELECT distinct u.idPerson u.numeroTel FROM public.contact c, public.utilisateur u WHERE c.idPerson1 = '+id.toString()+';', null)
+
+        .then(function (data) {
+            callback(null ,data);
+        })
+
+        .catch(function (error) {
+
+            callback(error ,null);
+
+        });        
+};
+
+exports.nouveauMessage = function (message, callback) {
 
     db.any('SELECT distinct u.idPerson u.numeroTel FROM public.contact c, public.utilisateur u WHERE c.idPerson1 = '+id.toString()+';', null)
 
