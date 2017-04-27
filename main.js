@@ -68,7 +68,7 @@ io.sockets.on('connection', function (socket) {
     });*/
     socket.emit('text', "Coucou");
     socket.on('disconnect', function(){
-        console.log("Deconnection");
+        console.log("Un utilisateur s'est déconnecté.");
     });
 });
 
