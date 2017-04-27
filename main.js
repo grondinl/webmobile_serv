@@ -64,18 +64,19 @@ io.sockets.on('connection', function (socket) {
         message = ent.encode(message);
         socket_client.broadcast.emit('message', {pseudo: socket_client.pseudo, message: message});
     });*/
-    socket.emit('text', "Coucou");
+    socket.emit('text', "Connecté");
     
     socket.on('identification', function(tel){
         console.log("identification avec tel : " + tel);
         dU.utilisateurExistant(tel, function(data,error) {
             if (error == null) {
-                if (data == 1) {
+                socket.emit('identification ok', 'identification ok');
+                if (data[0].count == 1) {
                     console.log("utilisateur existant");
-                    socket.emit('text',"utilisateur existant : " + data);
+                    socket.emit('text',"utilisateur existant : " + tel);
                 }
                 else {
-                    console.log("ajout utilisateur");
+                    console.log("ajout utilisateur : " + tel);
                     dU.addUser(tel,function(error){
                         if(error == null) {
                             console.log("utilisateur ajouté");

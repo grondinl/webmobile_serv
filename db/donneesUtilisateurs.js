@@ -14,7 +14,7 @@ var exports= module.exports ={};
 exports.utilisateurExistant = function (tel, callback){
     db.any("SELECT COUNT(*) FROM public.utilisateur u WHERE u.numerotel='"+ tel +"';")
         .then(function (data) {
-            console.log("trouve "+ data +" utilisateurs");
+            console.log("trouve "+ data[0].count +" utilisateurs");
             callback(data, null);
         })
 
