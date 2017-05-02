@@ -6,7 +6,7 @@
 
 var pgp = require('pg-promise')(/*options*/);
 var dbconfig = require('./settings.js').settings;
-
+var date = new Date();
 
 var db = pgp(dbconfig);
 var exports= module.exports ={};
@@ -74,19 +74,19 @@ exports.getContactUtilisateur = function (tel, callback) {
         });        
 };*/
 
-exports.newMessage = function(message,tel, callback){
+exports.newMessage = function(message,tel, lat, lon, callback){
 
-        console.log(tel +" veut envoyer le message : " + message);
-        
-        db.any("INSERT INTO message(message, numerotel) values ('"+ message +"'," + "'"+ tel +"'); ", null)
-
+    console.log(tel +" veut envoyer le message : " + message);
+    var request = "INSERT INTO message(temps, message, numerotel, latitude, longitude) values (" + date.getTime() + ", '" + message +"', '"+ tel +"', "+lat+", "+lon+");";
+    console.log(request);    
+    db.any(request, null)
         .then(function (data) {
-            callback(null ,data);
+            callback(data , null);
         })
 
         .catch(function (error) {
 
-            callback(error ,null);
+            callback(null, error);
 
         }); 
 };
@@ -96,18 +96,18 @@ exports.recupMessage = function(callback){
         db.any("select m.message from message m ", null)
 
         .then(function (data) {
-            callback(null ,data);
+            callback(data , null);
         })
 
         .catch(function (error) {
 
-            callback(error ,null);
+            callback(null, error);
 
         });
     
 }
 
-exports.getPosition = function (idPerson, callback){
+/*exports.getPosition = function (idPerson, callback){
 
     
     db.any("INSERT INTO public.message(lat) VALUES ('"+ lat +"');"
@@ -118,7 +118,7 @@ exports.getPosition = function (idPerson, callback){
         .catch(function(error) {                    
             callback(error);
         });
-};
+};*/
 
 exports.getPositionEmetteur = function (lat, lon, callback){
     

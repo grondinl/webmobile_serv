@@ -29,8 +29,7 @@ var bodyParser = require('body-parser');  // envoie des paramètres en POST
 var ent = require('ent'); // Permet de bloquer les caractères HTML (sécurité équivalente à htmlentities en PHP)
 var dU = require('./db/donneesUtilisateurs.js');
 //var app_router = require('./routes/app_routes'); //eventuellement ( A VOIR PLUS TARD)
-var messages_services = require('./services/messages');
-
+var date = new Date();
 // pour gérer les URL-encoded bodies (envoie formulaire en POST)
 app.use(bodyParser.urlencoded({     
     extended: true
@@ -138,8 +137,12 @@ io.sockets.on('connection', function (socket) {
        }); 
     });
    
-    socket.on('message', function(message){
-        dU.newMessage(message, socket.tel, function(data,error){
+    socket.on('newMessage', function(messageEtOption){
+        var message = messageEtOption.message;
+        var lat = messageEtOption.lat;
+        var lon = messageEtOption.lon;
+        
+        dU.newMessage(message, socket.tel, lat, lon, function(data, error){
             if (error == null){
                 console.log("nouveau message ajouté");
             } else {
