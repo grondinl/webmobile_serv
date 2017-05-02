@@ -92,19 +92,23 @@ exports.newMessage = function(message,tel, lat, lon, callback){
         }); 
 };
 
-exports.recupMessage = function(callback){
+exports.recupMessage = function(pos, tel, callback){
+    var select = "SELECT m.message ";
+    var from = "FROM public.message m, public.contact c ";
+    var where1 = "WHERE ST_DWithin(ST_GeographyFromText('POINT(' || m.longitude || ' ' || m.latitude || ')'),  ST_GeographyFromText('POINT(" + pos.lon +" "+pos.lat+")'), 345000) ";
+    var where2 = "AND ((c.numerotel1="+tel+" AND c.numerotel2=m.numerotel) OR (c.numerotel1=m.numerotel AND c.numerotel2="+tel+"))";
+    var requete = select + from + where1+where2 +";";
+    console.log(requete);
+    db.any(requete, null)
+    .then(function (data) {
+        callback(data , null);
+    })
 
-        db.any("select m.message from public.message m;", null)
+    .catch(function (error) {
 
-        .then(function (data) {
-            callback(data , null);
-        })
+        callback(null, error);
 
-        .catch(function (error) {
-
-            callback(null, error);
-
-        });
+    });
     
 }
 
