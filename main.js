@@ -69,9 +69,9 @@ io.sockets.on('connection', function (socket) {
         console.log("identification avec tel : " + tel);
         socket.tel=tel;
         dU.utilisateurExistant(tel, function(data,error) {
-            if (error === null) {
+            if (error == null) {
                 socket.emit('identification ok', 'identification ok');
-                if (data[0].count === "1") {
+                if (data[0].count == 1) {
                     console.log("utilisateur existant");
                     socket.emit('text',"utilisateur existant : " + tel);
                 }
@@ -154,7 +154,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('recuperation message', function(tel){
         console.log(tel + " veut recupérer ses messages")
         dU.recupMessage( function(data,error){
-            if (error == null){
+            if (error == null){             
                 socket.emit("envoie message", data);
             } else {
                 console.log("erreur recuperation des messages");

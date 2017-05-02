@@ -74,6 +74,7 @@ exports.getContactUtilisateur = function (tel, callback) {
         });        
 };*/
 
+
 exports.newMessage = function(message,tel, lat, lon, callback){
 
     console.log(tel +" veut envoyer le message : " + message);
@@ -93,7 +94,7 @@ exports.newMessage = function(message,tel, lat, lon, callback){
 
 exports.recupMessage = function(callback){
 
-        db.any("select m.message from message m ", null)
+        db.any("select m.message from public.message m;", null)
 
         .then(function (data) {
             callback(data , null);
@@ -124,12 +125,12 @@ exports.getPositionEmetteur = function (lat, lon, callback){
     
     db.any('SELECT distinct;')
         .then(function (data) {
-            callback(null ,data);
+            callback(data,null);
         })
 
         .catch(function (error) {
 
-            callback(error ,null);
+            callback(null ,error);
 
         }); 
     
