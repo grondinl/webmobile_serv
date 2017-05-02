@@ -48,7 +48,7 @@ exports.getContactUtilisateur = function (tel, callback) {
         });        
 };
 
-exports.nouveauMessage = function (message, callback) {
+/*exports.nouveauMessage = function (message, callback) {
 
     db.any('SELECT distinct u.idPerson u.numeroTel FROM public.contact c, public.utilisateur u WHERE c.idPerson1 = '+id.toString()+';', null)
 
@@ -61,9 +61,43 @@ exports.nouveauMessage = function (message, callback) {
             callback(error ,null);
 
         });        
+};*/
+
+exports.newMessage = function(message,tel, callback){
+
+        console.log(tel +" veut envoyer le message : " + message);
+        
+        db.any("INSERT INTO message(message, numerotel) values ('"+ message +"'," + "'"+ tel +"'); ", null)
+
+        .then(function (data) {
+            callback(null ,data);
+        })
+
+        .catch(function (error) {
+
+            callback(error ,null);
+
+        }); 
 };
 
-exports.addPositionEmetteur = function (lat, lon, callback){
+exports.recupMessage = function(callback){
+
+        db.any("select m.message from message m ", null)
+
+        .then(function (data) {
+            callback(null ,data);
+        })
+
+        .catch(function (error) {
+
+            callback(error ,null);
+
+        });
+    
+}
+
+exports.getPosition = function (idPerson, callback){
+
     
     db.any("INSERT INTO public.message(lat) VALUES ('"+ lat +"');"
            "INSERT INTO public.message(lon) VALUES ('"+ lon +"');")
