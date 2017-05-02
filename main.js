@@ -109,6 +109,26 @@ io.sockets.on('connection', function (socket) {
         
     });
    
+    socket.on('message', function(message){
+        dU.newMessage(message, socket.tel, function(data,error){
+            if (error == null){
+                console.log("nouveau message ajouté");
+            } else {
+                console.log("erreur nouveau message");
+            }
+        });
+    });
+    
+    socket.on('recuperation message', function(tel){
+        console.log(tel + " veut recupérer ses messages")
+        dU.recupMessage( function(data,error){
+            if (error == null){
+                socket.emit("envoie message", data);
+            } else {
+                console.log("erreur recuperation des messages");
+            }
+        })
+    })
    
    
     socket.on('disconnect', function(){
