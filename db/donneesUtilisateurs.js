@@ -126,17 +126,9 @@ exports.recupMessage = function(pos, tel, callback){
         });
 };*/
 
-exports.getPositionEmetteur = function (lat, lon, callback){
-    
-    db.any('SELECT distinct;')
-        .then(function (data) {
-            callback(data,null);
-        })
-
-        .catch(function (error) {
-
-            callback(null ,error);
-
-        }); 
-    
-};
+exports.clearOldMessages = function () {
+    console.log("clearOldMessages");
+    var date = new Date();
+    var temps = date.getTime();
+    db.any("DELETE FROM message m WHERE ("+temps+"-m.temps)>7200000",null);
+}

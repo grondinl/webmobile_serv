@@ -169,5 +169,15 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
+(function() {
+  var c = 0;
+  var timeout = setInterval(function() {
+    dU.clearOldMessages();
+    c++;
+    /*if (c > 2) {
+      clearInterval(timeout);
+    }*/
+  }, 10000);
+})();
 server.listen(3000);
 console.log("listening on 3000");
