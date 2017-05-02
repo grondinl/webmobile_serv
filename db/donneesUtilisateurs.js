@@ -35,14 +35,12 @@ exports.addUser = function (tel, callback){
         });
 };
 
-exports.getContactUtilisateur = function (id, callback) {
+exports.getContactUtilisateur = function (tel, callback) {
 
-    db.any('SELECT distinct u.idPerson u.numeroTel FROM public.contact c, public.utilisateur u WHERE c.idPerson1 = '+id.toString()+';', null)
-
+    db.any('Select case when c.numerotel1='+tel+' then c.numerotel2 when c.numerotel2='+tel+' then c.numerotel1 end as numerotel from public.contact c;', null)
         .then(function (data) {
             callback(null ,data);
         })
-
         .catch(function (error) {
 
             callback(error ,null);

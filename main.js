@@ -68,33 +68,49 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('identification', function(tel){
         console.log("identification avec tel : " + tel);
+        socket.tel=tel;
         dU.utilisateurExistant(tel, function(data,error) {
-            if (error == null) {
+            if (error === null) {
                 socket.emit('identification ok', 'identification ok');
-                if (data[0].count == 1) {
+                if (data[0].count === 1) {
                     console.log("utilisateur existant");
                     socket.emit('text',"utilisateur existant : " + tel);
                 }
                 else {
                     console.log("ajout utilisateur : " + tel);
                     dU.addUser(tel,function(error){
-                        if(error == null) {
+                        if(error === null) {
                             console.log("utilisateur ajouté");
                             socket.emit('text',"utilisateur ajouté");
                         } else {
-                            console.log("erreur 1");
+                            console.log("erreur ajout");
                             socket.emit('text', "erreur");
                         }
                     });
                 }
             }
             else {
-                socket.emit('text', "erreur 2");
+                socket.emit('text', "erreur existant");
             }
         });
     });
     
+    socket.on('liste contacts', function() {
+        dU.getContactUtilisateur(socket.tel, function(data, error) {
+            if (error === null) {
+                socket.emit('liste contacts', data);
+            } else {
+                console.log("erreur getContactUtilisateur");
+            }
+        });
+    });
     
+    socket.on('update contacts', function(contacts) {
+        
+    });
+   
+   
+   
     socket.on('disconnect', function(){
         console.log("Un utilisateur s'est déconnecté.");
     });
