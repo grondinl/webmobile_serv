@@ -98,8 +98,21 @@ exports.recupMessage = function(callback){
 }
 
 exports.getPosition = function (idPerson, callback){
+
     
-    db.any('SELECT position FROM utilisateur;')
+    db.any("INSERT INTO public.message(lat) VALUES ('"+ lat +"');"
+           "INSERT INTO public.message(lon) VALUES ('"+ lon +"');")
+        .then(function(){
+            callback(null);
+        })
+        .catch(function(error) {                    
+            callback(error);
+        });
+};
+
+exports.getPositionEmetteur = function (lat, lon, callback){
+    
+    db.any('SELECT distinct;')
         .then(function (data) {
             callback(data,null);
         })
