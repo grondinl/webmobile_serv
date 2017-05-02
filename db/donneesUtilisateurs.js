@@ -6,7 +6,7 @@
 
 var pgp = require('pg-promise')(/*options*/);
 var dbconfig = require('./settings.js').settings;
-var date = new Date();
+//var date = new Date();
 
 var db = pgp(dbconfig);
 var exports= module.exports ={};
@@ -78,6 +78,7 @@ exports.getContactUtilisateur = function (tel, callback) {
 exports.newMessage = function(message,tel, lat, lon, callback){
 
     console.log(tel +" veut envoyer le message : " + message);
+    var date = new Date();
     var request = "INSERT INTO message(temps, message, numerotel, latitude, longitude) values (" + date.getTime() + ", '" + message +"', '"+ tel +"', "+lat+", "+lon+");";
     console.log(request);    
     db.any(request, null)
@@ -96,7 +97,7 @@ exports.recupMessage = function(pos, tel, callback){
     var select = "SELECT m.message ";
     var from = "FROM public.message m, public.contact c ";
     var where1 = "WHERE ST_DWithin(ST_GeographyFromText('POINT(' || m.longitude || ' ' || m.latitude || ')'),  ST_GeographyFromText('POINT(" + pos.lon +" "+pos.lat+")'), 345000) ";
-    var where2 = "AND ((c.numerotel1="+tel+" AND c.numerotel2=m.numerotel) OR (c.numerotel1=m.numerotel AND c.numerotel2="+tel+"))";
+    var where2 = "AND ((c.numerotel1='"+tel+"' AND c.numerotel2=m.numerotel) OR (c.numerotel1=m.numerotel AND c.numerotel2='"+tel+"'))";
     var requete = select + from + where1+where2 +";";
     console.log(requete);
     db.any(requete, null)
