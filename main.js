@@ -72,7 +72,7 @@ io.sockets.on('connection', function (socket) {
         dU.utilisateurExistant(tel, function(data,error) {
             if (error === null) {
                 socket.emit('identification ok', 'identification ok');
-                if (data[0].count === 1) {
+                if (data[0].count === "1") {
                     console.log("utilisateur existant");
                     socket.emit('text',"utilisateur existant : " + tel);
                 }
@@ -100,13 +100,42 @@ io.sockets.on('connection', function (socket) {
             if (error === null) {
                 socket.emit('liste contacts', data);
             } else {
-                console.log("erreur getContactUtilisateur");
+                console.log("erreur getContactUtilisateur dans  liste");
             }
         });
     });
     
-    socket.on('update contacts', function(contacts) {
-        
+    socket.on('update contact', function(num) {
+        console.log("update contact" + num);
+        dU.getContactUtilisateur(socket.tel, function(data, error) {
+           if (error === null) {
+                dU.utilisateurExistant(num, function(data2, error) {
+                    if (error === null) {
+                        if (data2[0].count == 1) {
+                            var trouve = 0;
+                            for (j=0; j < data.length; j++) {
+                                if (data[j].numerotel == num) {
+                                    trouve = 1;
+                                    console.log(num + " est déjà en contact avec"+socket.tel);
+                                }
+                            }
+                            if (trouve === 0) {
+                                dU.addContact(socket.tel, num, function(data3, error) {
+                                    if (error !== null) {
+                                        console.log("erreur ajout contact");
+                                    }
+                                });
+                            }
+                        }
+                    }/* else {
+                        console.log("erreur existant update");
+                    }*/
+                });
+
+           } else {
+               console.log("erreur getContactUtilisateur dans update :" + error);
+           }
+       }); 
     });
    
    

@@ -14,7 +14,7 @@ var exports= module.exports ={};
 exports.utilisateurExistant = function (tel, callback){
     db.any("SELECT COUNT(*) FROM public.utilisateur u WHERE u.numerotel='"+ tel +"';")
         .then(function (data) {
-            console.log("trouve "+ data[0].count +" utilisateurs");
+            //console.log("trouve "+ data[0].count +" utilisateurs ayant pour tel "+tel);
             callback(data, null);
         })
 
@@ -35,15 +35,26 @@ exports.addUser = function (tel, callback){
         });
 };
 
+exports.addContact = function(tel1, tel2, callback) {
+    console.log("ajout du lien " + tel1 + " - " + tel2);
+    db.any("INSERT INTO public.contact(numerotel1, numerotel2) VALUES ('"+tel1+"', '"+tel2+"');")
+            .then(function(){
+                callback(data, null);
+            })
+            
+            .catch(function (error) {
+                callback(null, error);
+            });
+};
 exports.getContactUtilisateur = function (tel, callback) {
-
-    db.any('Select case when c.numerotel1='+tel+' then c.numerotel2 when c.numerotel2='+tel+' then c.numerotel1 end as numerotel from public.contact c;', null)
+    
+    db.any("Select case when c.numerotel1='"+tel+"' then c.numerotel2 when c.numerotel2='"+tel+"' then c.numerotel1 end as numerotel from public.contact c;")
         .then(function (data) {
-            callback(null ,data);
+            callback(data ,null);
         })
         .catch(function (error) {
 
-            callback(error ,null);
+            callback(null, error);
 
         });        
 };
