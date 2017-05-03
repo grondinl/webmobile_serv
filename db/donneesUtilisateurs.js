@@ -75,11 +75,11 @@ exports.getContactUtilisateur = function (tel, callback) {
 };*/
 
 
-exports.newMessage = function(message,tel, lat, lon, callback){
+exports.newMessage = function(message,tel, lat, lon, type, callback){
 
     console.log(tel +" veut envoyer le message : " + message);
     var date = new Date();
-    var request = "INSERT INTO message(temps, message, numerotel, latitude, longitude) values (" + date.getTime() + ", '" + message +"', '"+ tel +"', "+lat+", "+lon+");";
+    var request = "INSERT INTO message(temps, message, numerotel, latitude, longitude, type) values (" + date.getTime() + ", '" + message +"', '"+ tel +"', "+lat+", "+lon+", '"+type+"');";
     console.log(request);    
     db.any(request, null)
         .then(function (data) {
@@ -94,12 +94,12 @@ exports.newMessage = function(message,tel, lat, lon, callback){
 };
 
 exports.recupMessage = function(pos, tel, callback){
-    var select = "SELECT m.message ";
+    var select = "SELECT m.message, m.type, m.numerotel, m.temps ";
     var from = "FROM public.message m, public.contact c ";
     var where1 = "WHERE ST_DWithin(ST_GeographyFromText('POINT(' || m.longitude || ' ' || m.latitude || ')'),  ST_GeographyFromText('POINT(" + pos.lon +" "+pos.lat+")'), 345000) ";
     var where2 = "AND ((c.numerotel1='"+tel+"' AND c.numerotel2=m.numerotel) OR (c.numerotel1=m.numerotel AND c.numerotel2='"+tel+"'))";
     var requete = select + from + where1+where2 +";";
-    console.log(requete);
+    //console.log(requete);
     db.any(requete, null)
     .then(function (data) {
         callback(data , null);

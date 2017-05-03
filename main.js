@@ -141,8 +141,8 @@ io.sockets.on('connection', function (socket) {
         var message = messageEtOption.message;
         var lat = messageEtOption.lat;
         var lon = messageEtOption.lon;
-        
-        dU.newMessage(message, socket.tel, lat, lon, function(data, error){
+        var type = messageEtOption.type;
+        dU.newMessage(message, socket.tel, lat, lon, type, function(data, error){
             if (error == null) {
                 console.log("nouveau message ajouté");
             } else {
@@ -177,7 +177,7 @@ io.sockets.on('connection', function (socket) {
     /*if (c > 2) {
       clearInterval(timeout);
     }*/
-  }, 10000);
+  }, 60000);
 })();
 server.listen(3000);
 console.log("listening on 3000");
