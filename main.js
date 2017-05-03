@@ -95,9 +95,11 @@ io.sockets.on('connection', function (socket) {
     });
     
     socket.on('liste contacts', function() {
+        console.log(socket.tel + "veut recuperer ses contacts");
         dU.getContactUtilisateur(socket.tel, function(data, error) {
             if (error === null) {
-                socket.emit('liste contacts', data);
+                console.log("Envoie des contact à " + socket.tel);
+                socket.emit('envoie liste contacts', data);
             } else {
                 console.log("erreur getContactUtilisateur dans  liste");
             }
