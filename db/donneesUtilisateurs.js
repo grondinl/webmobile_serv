@@ -97,7 +97,8 @@ exports.recupMessage = function(pos, tel, callback){
     var select = "SELECT DISTINCT m.message, m.type, m.numerotel, m.temps ";
     var from = "FROM public.message m, public.contact c ";
     var where1 = "WHERE ST_DWithin(ST_GeographyFromText('POINT(' || m.longitude || ' ' || m.latitude || ')'),  ST_GeographyFromText('POINT(" + pos.lon +" "+pos.lat+")'), 345000) ";
-    var where2 = "AND (((c.numerotel1='"+tel+"' AND c.numerotel2=m.numerotel) OR (c.numerotel1=m.numerotel AND c.numerotel2='"+tel+"')) OR m.numerotel='"+tel+"')";
+    var where2 = "AND (((c.numerotel1='"+tel+"' AND c.numerotel2=m.numerotel) OR (c.numerotel1=m.numerotel AND c.numerotel2='"+tel+"')) OR m.numerotel='"+tel+"') ";
+    var order = "ORDER BY m.temps"
     var requete = select + from + where1+where2 +";";
     console.log(requete);
     db.any(requete, null)
@@ -130,5 +131,5 @@ exports.clearOldMessages = function () {
     console.log("clearOldMessages");
     var date = new Date();
     var temps = date.getTime();
-    db.any("DELETE FROM message m WHERE ("+temps+"-m.temps)>7200000",null);
+    db.any("DELETE FROM message m WHERE ("+temps+"-m.temps)>600000",null);
 }
